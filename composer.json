@@ -1,12 +1,16 @@
 {
-    "name": "boshurik/telegram-bot-bundle",
+    "name": "ninodafonte/telegram-bot-bundle",
     "license": "MIT",
     "type": "symfony-bundle",
-    "description": "Telegram bot bundle",
+    "description": "Telegram bot bundle from original boshurik bundle",
     "authors": [
         {
             "name": "Alexander Borisov",
             "email": "boshurik@gmail.com"
+        },
+        {
+            "name": "Nino Dafonte",
+            "email": "nino.dafonte@gmail.com"
         },
         {
             "name": "Community",
