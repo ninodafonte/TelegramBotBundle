@@ -22,7 +22,7 @@ class CommandListener implements EventSubscriberInterface
      * @var BotApi
      */
     private $api;
-    
+
     /**
      * @var CommandRegistry
      */
@@ -37,7 +37,7 @@ class CommandListener implements EventSubscriberInterface
 
     public function __construct(BotApi $api, CommandRegistry $commandRegistry)
     {
-        $this->api = $api;
+        $this->api             = $api;
         $this->commandRegistry = $commandRegistry;
     }
 
@@ -47,14 +47,11 @@ class CommandListener implements EventSubscriberInterface
     public function onUpdate(UpdateEvent $event)
     {
         foreach ($this->commandRegistry->getCommands() as $command) {
-            if (!$command->isApplicable($event->getUpdate())) {
-                continue;
+            if ($command->isApplicable($event->getUpdate())) {
+                $command->execute($this->api, $event->getUpdate());
+                $event->setProcessed();
+                break;
             }
-
-            $command->execute($this->api, $event->getUpdate());
-            $event->setProcessed();
-
-            break;
         }
     }
 }

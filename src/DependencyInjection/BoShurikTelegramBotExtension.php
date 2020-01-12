@@ -12,7 +12,9 @@
 namespace BoShurik\TelegramBotBundle\DependencyInjection;
 
 use BoShurik\TelegramBotBundle\DependencyInjection\Compiler\CommandCompilerPass;
+use BoShurik\TelegramBotBundle\DependencyInjection\Compiler\CallbackCompilerPass;
 use BoShurik\TelegramBotBundle\Telegram\Command\CommandInterface;
+use BoShurik\TelegramBotBundle\Telegram\Callback\CallbackInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -31,9 +33,9 @@ class BoShurikTelegramBotExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config        = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $loader->load('services.yaml');
 
@@ -43,8 +45,11 @@ class BoShurikTelegramBotExtension extends Extension
 
         $container
             ->registerForAutoconfiguration(CommandInterface::class)
-            ->addTag(CommandCompilerPass::TAG)
-        ;
+            ->addTag(CommandCompilerPass::TAG);
+
+        $container
+            ->registerForAutoconfiguration(CallbackInterface::class)
+            ->addTag(CallbackCompilerPass::TAG);
     }
 
     /**

@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use BoShurik\TelegramBotBundle\DependencyInjection\Compiler\CommandCompilerPass;
+use BoShurik\TelegramBotBundle\DependencyInjection\Compiler\CallbackCompilerPass;
 
 class BoShurikTelegramBotBundle extends Bundle
 {
@@ -27,6 +28,7 @@ class BoShurikTelegramBotBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new CommandCompilerPass());
+        $container->addCompilerPass(new CallbackCompilerPass());
     }
 
     /**
