@@ -4,6 +4,10 @@
 
 Telegram bot bundle on top of [`telegram-bot/api`][1] library
 
+## Examples
+
+See [example project][5]
+
 ## Installation
 
 #### Composer
@@ -11,6 +15,8 @@ Telegram bot bundle on top of [`telegram-bot/api`][1] library
 ``` bash
 $ composer require boshurik/telegram-bot-bundle
 ```
+
+If you are using [symfony/flex][6] all you need is to set `TELEGRAM_BOT_TOKEN` environment variable
 
 #### Register the bundle
 
@@ -43,7 +49,6 @@ boshurik_telegram_bot:
     api:
         token: "%telegram_bot_api_token%"
         proxy: "socks5://127.0.0.1:8888"
-    name: "%telegram_bot_name%"
 ```
 
 ## Usage
@@ -105,10 +110,11 @@ app.telegram.command.help:
     tags:
         - { name: boshurik_telegram_bot.command }
 ```
+It displays commands which additionally implement `\BoShurik\TelegramBotBundle\Telegram\Command\PublicCommandInterface`
 
 #### Events
 
-For more complex application (e.g. conversations) you can listen for `TelegramEvents::UPDATE` event
+For more complex application (e.g. conversations) you can listen for `BoShurik\TelegramBotBundle\Event\UpdateEvent` event
 ``` php
 /**
  * @param UpdateEvent $event
@@ -120,10 +126,9 @@ public function onUpdate(UpdateEvent $event)
 }
 ```
 
-## [Example][5]
-
 [1]: https://github.com/TelegramBot/Api
 [2]: https://github.com/TelegramBot/Api#usage
 [3]: https://core.telegram.org/bots/api#getupdates
 [4]: https://core.telegram.org/bots/api#setwebhook
 [5]: https://github.com/BoShurik/telegram-bot-example
+[6]: https://flex.symfony.com

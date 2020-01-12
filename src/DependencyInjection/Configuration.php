@@ -26,12 +26,11 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('boshurik_telegram_bot');
+        $treeBuilder = new TreeBuilder('boshurik_telegram_bot');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
-                ->scalarNode('name')->isRequired()->end()
                 ->arrayNode('api')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('token')->isRequired()->end()

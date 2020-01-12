@@ -11,8 +11,7 @@
 
 namespace BoShurik\TelegramBotBundle\Controller;
 
-use BoShurik\TelegramBotBundle\Event\Telegram\WebhookEvent;
-use BoShurik\TelegramBotBundle\Event\TelegramEvents;
+use BoShurik\TelegramBotBundle\Event\WebhookEvent;
 use BoShurik\TelegramBotBundle\Telegram\Telegram;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,17 +46,18 @@ class WebhookController
      */
     public function indexAction(Request $request)
     {
-        if ($data = BotApi::jsonValidate($request->getContent(), true)) {
-            $update = Update::fromResponse($data);
-            $this->telegram->processUpdate($update);
-        } else {
+        if ($content = $request->getContent()) {
+            if ($data = BotApi::jsonValidate($content, true)) {
+                $update = Update::fromResponse($data);
+                $this->telegram->processUpdate($update);
+            }
+        }
+
+        if (!isset($update)) {
             throw new BadRequestHttpException('Empty data');
         }
 
-        $event = $this->eventDispatcher->dispatch(
-            new WebhookEvent($request, $update),
-            TelegramEvents::WEBHOOK
-        );
+        $event = $this->eventDispatcher->dispatch(new WebhookEvent($request, $update));
 
         return $event->getResponse() ? $event->getResponse() : new Response();
     }
